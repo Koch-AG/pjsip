@@ -1,4 +1,4 @@
-/* $Id: pjsua.h 6004 2019-05-24 03:32:17Z riza $ */
+/* $Id$ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -510,12 +510,12 @@ typedef struct pjsua_reg_info
 typedef struct pjsua_on_stream_created_param
 {
     /**
-     * The media stream, read-only.
+     * The audio media stream, read-only.
      */
     pjmedia_stream 	*stream;
 
     /**
-     * Stream index in the media session, read-only.
+     * Stream index in the audio media session, read-only.
      */
     unsigned 		 stream_idx;
 
@@ -530,7 +530,7 @@ typedef struct pjsua_on_stream_created_param
     pj_bool_t 		 destroy_port;
 
     /**
-     * On input, it specifies the media port of the stream. Application
+     * On input, it specifies the audio media port of the stream. Application
      * may modify this pointer to point to different media port to be
      * registered to the conference bridge.
      */
@@ -960,18 +960,18 @@ typedef struct pjsua_callback
 
 
     /**
-     * Notify application when media session is created and before it is
+     * Notify application when audio media session is created and before it is
      * registered to the conference bridge. Application may return different
-     * media port if it has added media processing port to the stream. This
-     * media port then will be added to the conference bridge instead.
+     * audio media port if it has added media processing port to the stream.
+     * This media port then will be added to the conference bridge instead.
      *
      * Note: if implemented, #on_stream_created2() callback will be called
      * instead of this one. 
      *
      * @param call_id	    Call identification.
-     * @param strm	    Media stream.
-     * @param stream_idx    Stream index in the media session.
-     * @param p_port	    On input, it specifies the media port of the
+     * @param strm	    Audio media stream.
+     * @param stream_idx    Stream index in the audio media session.
+     * @param p_port	    On input, it specifies the audio media port of the
      *			    stream. Application may modify this pointer to
      *			    point to different media port to be registered
      *			    to the conference bridge.
@@ -982,10 +982,10 @@ typedef struct pjsua_callback
 			      pjmedia_port **p_port);
 
     /**
-     * Notify application when media session is created and before it is
+     * Notify application when audio media session is created and before it is
      * registered to the conference bridge. Application may return different
-     * media port if it has added media processing port to the stream. This
-     * media port then will be added to the conference bridge instead.
+     * audio media port if it has added media processing port to the stream.
+     * This media port then will be added to the conference bridge instead.
      *
      * @param call_id	    Call identification.
      * @param param	    The on stream created callback parameter.
@@ -994,12 +994,12 @@ typedef struct pjsua_callback
 			       pjsua_on_stream_created_param *param);
 
     /**
-     * Notify application when media session has been unregistered from the
-     * conference bridge and about to be destroyed.
+     * Notify application when audio media session has been unregistered from
+     * the conference bridge and about to be destroyed.
      *
      * @param call_id	    Call identification.
-     * @param strm	    Media stream.
-     * @param stream_idx    Stream index in the media session.
+     * @param strm	    Audio media stream.
+     * @param stream_idx    Stream index in the audio media session.
      */
     void (*on_stream_destroyed)(pjsua_call_id call_id,
                                 pjmedia_stream *strm,
@@ -4176,9 +4176,10 @@ typedef struct pjsua_acc_info
     pj_bool_t		has_registration;
 
     /**
-     * An up to date expiration interval for account registration session.
+     * An up to date expiration interval for account registration session,
+     * PJSIP_EXPIRES_NOT_SPECIFIED if the account doesn't have reg session.
      */
-    int			expires;
+    unsigned		expires;
 
     /**
      * Last registration status code. If status code is zero, the account
@@ -6544,7 +6545,9 @@ struct pjsua_media_config
     unsigned		rx_drop_pct;
 
     /**
-     * Echo canceller options (see #pjmedia_echo_create())
+     * Echo canceller options (see #pjmedia_echo_create()).
+     * Specify PJMEDIA_ECHO_USE_SW_ECHO here if application wishes
+     * to use software echo canceller instead of device EC.
      *
      * Default: 0.
      */

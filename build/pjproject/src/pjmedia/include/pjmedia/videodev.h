@@ -1,4 +1,4 @@
-/* $Id: videodev.h 5255 2016-03-10 05:02:07Z ming $ */
+/* $Id$ */
 /*
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  *
@@ -25,7 +25,6 @@
  */
 #include <pjmedia-videodev/config.h>
 #include <pjmedia-videodev/errno.h>
-#include <pjmedia/event.h>
 #include <pjmedia/frame.h>
 #include <pjmedia/format.h>
 #include <pj/pool.h>

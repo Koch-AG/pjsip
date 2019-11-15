@@ -254,7 +254,7 @@ function do_lipo() {
 	done < "${TMP}"
 }
 
-download "${PJSIP_URL}" "${PJSIP_DIR}"
+#download "${PJSIP_URL}" "${PJSIP_DIR}"
 
 
 build "i386" "${IPHONESIMULATOR_SDK}" "ios"
