@@ -26,7 +26,7 @@ OSX_PLATFORM=$(xcrun --sdk macosx --show-sdk-platform-path)
 OSX_SDK=$(xcrun --sdk macosx --show-sdk-path)
 
 BASE_DIR="$1"
-PJSIP_URL="http://www.pjsip.org/release/${PJSIP_VERSION:-2.9}/pjproject-${PJSIP_VERSION:-2.9}.tar.bz2"
+PJSIP_URL="https://github.com/pjsip/pjproject/archive/2.10.zip"
 PJSIP_DIR="$1/src"
 LIB_PATHS=("pjlib/lib" \
            "pjlib-util/lib" \
@@ -254,7 +254,7 @@ function do_lipo() {
 	done < "${TMP}"
 }
 
-#download "${PJSIP_URL}" "${PJSIP_DIR}"
+download "${PJSIP_URL}" "${PJSIP_DIR}"
 
 
 build "i386" "${IPHONESIMULATOR_SDK}" "ios"
@@ -264,7 +264,7 @@ build "armv7s" "${IPHONEOS_SDK}" "ios"
 build "arm64" "${IPHONEOS_SDK}" "ios"
 
 # We don't support x86 for macOS.
-build "x86_64" "${OSX_SDK}" "macos"
+# build "x86_64" "${OSX_SDK}" "macos"
 
 do_lipo "ios" "i386" "x86_64" "armv7" "armv7s" "arm64"
-do_lipo "macos" "x86_64"
+# do_lipo "macos" "x86_64"

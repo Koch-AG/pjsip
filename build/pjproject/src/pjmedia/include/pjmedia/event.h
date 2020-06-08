@@ -25,6 +25,7 @@
  */
 #include <pjmedia/audiodev.h>
 #include <pjmedia/format.h>
+#include <pjmedia/rtcp_fb.h>
 #include <pjmedia/signatures.h>
 #include <pjmedia/videodev.h>
 
@@ -104,7 +105,12 @@ typedef enum pjmedia_event_type
     /**
      * Transport media error.
      */
-    PJMEDIA_EVENT_MEDIA_TP_ERR = PJMEDIA_FOURCC('T', 'E', 'R', 'R')
+    PJMEDIA_EVENT_MEDIA_TP_ERR = PJMEDIA_FOURCC('T', 'E', 'R', 'R'),
+
+    /**
+     * Callback event. Currently for internal use only.
+     */
+    PJMEDIA_EVENT_CALLBACK = PJMEDIA_FOURCC('C', 'B', ' ', ' ')
 
 } pjmedia_event_type;
 
@@ -296,6 +302,9 @@ typedef struct pjmedia_event
 
 	/** Media transport error event data */
 	pjmedia_event_media_tp_err_data		med_tp_err;
+
+	/** Receiving RTCP-FB event data */
+	pjmedia_event_rx_rtcp_fb_data		rx_rtcp_fb;
 
 	/** Pointer to storage to user event data, if it's outside
 	 * this struct

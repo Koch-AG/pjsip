@@ -748,7 +748,12 @@ typedef enum pjsua_ip_change_op {
     /**
      * The re-INVITE call process.
      */
-    PJSUA_IP_CHANGE_OP_ACC_REINVITE_CALLS
+    PJSUA_IP_CHANGE_OP_ACC_REINVITE_CALLS,
+
+    /**
+     * The ip change process has completed.
+     */
+    PJSUA_IP_CHANGE_OP_COMPLETED
 
 } pjsua_ip_change_op;
 
@@ -860,7 +865,8 @@ typedef struct pjsua_call_setting
      * This flag controls what methods to request keyframe are allowed on
      * the call. Value is bitmask of #pjsua_vid_req_keyframe_method.
      *
-     * Default: PJSUA_VID_REQ_KEYFRAME_SIP_INFO
+     * Default: (PJSUA_VID_REQ_KEYFRAME_SIP_INFO | 
+     *		 PJSUA_VID_REQ_KEYFRAME_RTCP_PLI)
      */
     unsigned	     req_keyframe_method;
 
@@ -7446,6 +7452,17 @@ PJ_DECL(pj_status_t) pjsua_get_ec_tail(unsigned *p_tail_ms);
 
 
 /**
+ * Get echo canceller statistics.
+ *
+ * @param p_stat	    Pointer to receive the stat.
+ *
+ * @return		    PJ_SUCCESS on success, or the appropriate error
+ *			    code.
+ */
+PJ_DECL(pj_status_t) pjsua_get_ec_stat(pjmedia_echo_stat *p_stat);
+
+
+/**
  * Check whether the sound device is currently active. The sound device
  * may be inactive if the application has set the auto close feature to
  * non-zero (the snd_auto_close_time setting in #pjsua_media_config), or
@@ -8052,6 +8069,20 @@ PJ_DECL(pj_status_t) pjsua_vid_win_set_win(pjsua_vid_win_id wid,
 PJ_DECL(pj_status_t) pjsua_vid_win_rotate(pjsua_vid_win_id wid,
 					  int angle);
 
+
+/**
+ * Set video window full-screen. This operation is valid only when the
+ * underlying video device supports PJMEDIA_VID_DEV_CAP_OUTPUT_FULLSCREEN
+ * capability. Currently it is only supported on SDL backend.
+ *
+ * @param wid		The video window ID.
+ * @param enabled   	Set to PJ_TRUE if full screen is desired, PJ_FALSE 
+ *			otherwise.
+ *
+ * @return		PJ_SUCCESS on success, or the appropriate error code.
+ */
+PJ_DECL(pj_status_t) pjsua_vid_win_set_fullscreen(pjsua_vid_win_id wid,
+                                                  pj_bool_t enabled);
 
 /*
  * Video codecs API
