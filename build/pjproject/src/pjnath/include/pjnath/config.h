@@ -220,13 +220,6 @@
 #   define PJ_TURN_KEEP_ALIVE_SEC		    15
 #endif
 
-/**
- * Maximum number of TCP data connection to peer(s) that a TURN client can
- * open/accept for each TURN allocation (or TURN control connection).
- */
-#ifndef PJ_TURN_MAX_TCP_CONN_CNT
-#   define PJ_TURN_MAX_TCP_CONN_CNT		    8
-#endif
 
 /* **************************************************************************
  * ICE CONFIGURATION
@@ -437,23 +430,12 @@
 
 /**
  * This constant specifies the length of random string generated for ICE
- * ufrag.
+ * ufrag and password.
  *
  * Default: 8 (characters)
  */
 #ifndef PJ_ICE_UFRAG_LEN
 #   define PJ_ICE_UFRAG_LEN			    8
-#endif
-
-
-/**
- * This constant specifies the length of random string generated for ICE
- * password.
- *
- * Default: 24 (characters)
- */
-#ifndef PJ_ICE_PWD_LEN
-#   define PJ_ICE_PWD_LEN			    24
 #endif
 
 

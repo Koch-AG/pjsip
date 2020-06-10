@@ -26,7 +26,7 @@ OSX_PLATFORM=$(xcrun --sdk macosx --show-sdk-platform-path)
 OSX_SDK=$(xcrun --sdk macosx --show-sdk-path)
 
 BASE_DIR="$1"
-PJSIP_URL="https://github.com/pjsip/pjproject/archive/2.10.zip"
+PJSIP_URL="https://github.com/pjsip/pjproject/archive/2.7.2.zip"
 PJSIP_DIR="$1/src"
 LIB_PATHS=("pjlib/lib" \
            "pjlib-util/lib" \

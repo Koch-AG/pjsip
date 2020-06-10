@@ -74,35 +74,6 @@ typedef enum pjsip_ssl_method
 				     PJ_SSL_SOCK_PROTO_TLS1_2)
 #endif
 
-
-/**
- * This structure describe the parameter passed from #on_accept_fail_cb().
- */
-typedef struct pjsip_tls_on_accept_fail_param {
-    /**
-     * Local address of the fail accept operation of the TLS listener.
-     */
-    const pj_sockaddr_t *local_addr;
-
-    /**
-     * Remote address of the fail accept operation of the TLS listener.
-     */
-    const pj_sockaddr_t *remote_addr;
-
-    /**
-     * Error status of the fail accept operation of the TLS listener.
-     */
-    pj_status_t status;
-
-    /**
-     * Last error code returned by native SSL backend. Note that this may be
-     * zero, if the failure is not SSL related (e.g: accept rejection).
-     */
-    pj_status_t last_native_err;
-
-} pjsip_tls_on_accept_fail_param;
-
-
 /**
  * TLS transport settings.
  */
@@ -129,27 +100,6 @@ typedef struct pjsip_tls_setting
      * Optional private key of the endpoint certificate to be used.
      */
     pj_str_t	privkey_file;
-
-    /**
-     * Certificate of Authority (CA) buffer. If ca_list_file, ca_list_path,
-     * cert_file or privkey_file are set, this setting will be ignored.
-     */
-    pj_ssl_cert_buffer ca_buf;
-
-    /**
-     * Public endpoint certificate buffer, which will be used as client-
-     * side  certificate for outgoing TLS connection, and server-side
-     * certificate for incoming TLS connection. If ca_list_file, ca_list_path,
-     * cert_file or privkey_file are set, this setting will be ignored.
-     */
-    pj_ssl_cert_buffer cert_buf;
-
-    /**
-     * Optional private key buffer of the endpoint certificate to be used. 
-     * If ca_list_file, ca_list_path, cert_file or privkey_file are set, 
-     * this setting will be ignored.
-     */
-    pj_ssl_cert_buffer privkey_buf;
 
     /**
      * Password to open private key.
@@ -336,13 +286,6 @@ typedef struct pjsip_tls_setting
      */
     pj_bool_t sockopt_ignore_error;
 
-    /**
-     * Callback to be called when a accept operation of the TLS listener fails.
-     *
-     * @param param         The parameter to the callback.
-     */
-    void(*on_accept_fail_cb)(const pjsip_tls_on_accept_fail_param *param);
-
 } pjsip_tls_setting;
 
 
@@ -396,11 +339,6 @@ PJ_INLINE(void) pjsip_tls_setting_copy(pj_pool_t *pool,
     pj_strdup_with_null(pool, &dst->password, &src->password);
     pj_strdup_with_null(pool, &dst->sigalgs, &src->sigalgs);
     pj_strdup_with_null(pool, &dst->entropy_path, &src->entropy_path);
-
-    pj_strdup(pool, &dst->ca_buf, &src->ca_buf);
-    pj_strdup(pool, &dst->cert_buf, &src->cert_buf);
-    pj_strdup(pool, &dst->privkey_buf, &src->privkey_buf);
-
     if (src->ciphers_num) {
 	unsigned i;
 	dst->ciphers = (pj_ssl_cipher*) pj_pool_calloc(pool, src->ciphers_num,
@@ -417,14 +355,6 @@ PJ_INLINE(void) pjsip_tls_setting_copy(pj_pool_t *pool,
 	    dst->curves[i] = src->curves[i];
     }
 }
-
-
-/**
- * Wipe out certificates and keys in the TLS setting buffer.
- *
- * @param opt	    TLS setting.
- */
-PJ_DECL(void) pjsip_tls_setting_wipe_keys(pjsip_tls_setting *opt);
 
 
 /**

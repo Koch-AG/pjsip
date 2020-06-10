@@ -104,14 +104,14 @@ public:
      *
      * @param node		Container to read values from.
      */
-    virtual void readObject(const ContainerNode &node) PJSUA2_THROW(Error);
+    virtual void readObject(const ContainerNode &node) throw(Error);
 
     /**
      * Write this object to a container node.
      *
      * @param node		Container to write values to.
      */
-    virtual void writeObject(ContainerNode &node) const PJSUA2_THROW(Error);
+    virtual void writeObject(ContainerNode &node) const throw(Error);
 };
 
 
@@ -143,27 +143,6 @@ struct TlsConfig : public PersistentObject
      * Password to open private key.
      */
     string		password;
-
-    /**
-     * Certificate of Authority (CA) buffer. If CaListFile, certFile or
-     * privKeyFile are set, this setting will be ignored.
-     */
-    string		CaBuf;
-
-    /**
-     * Public endpoint certificate buffer, which will be used as client-
-     * side  certificate for outgoing TLS connection, and server-side
-     * certificate for incoming TLS connection. If CaListFile, certFile or
-     * privKeyFile are set, this setting will be ignored.
-     */
-    string		certBuf;
-
-    /**
-     * Optional private key buffer of the endpoint certificate to be used. 
-     * If CaListFile, certFile or privKeyFile are set, this setting will 
-     * be ignored.
-     */
-    string		privKeyBuf;
 
     /**
      * TLS protocol method from #pjsip_ssl_method. In the future, this field
@@ -287,14 +266,14 @@ public:
      *
      * @param node		Container to read values from.
      */
-    virtual void readObject(const ContainerNode &node) PJSUA2_THROW(Error);
+    virtual void readObject(const ContainerNode &node) throw(Error);
 
     /**
      * Write this object to a container node.
      *
      * @param node		Container to write values to.
      */
-    virtual void writeObject(ContainerNode &node) const PJSUA2_THROW(Error);
+    virtual void writeObject(ContainerNode &node) const throw(Error);
 };
 
 
@@ -384,14 +363,14 @@ public:
      *
      * @param node		Container to read values from.
      */
-    virtual void readObject(const ContainerNode &node) PJSUA2_THROW(Error);
+    virtual void readObject(const ContainerNode &node) throw(Error);
 
     /**
      * Write this object to a container node.
      *
      * @param node		Container to write values to.
      */
-    virtual void writeObject(ContainerNode &node) const PJSUA2_THROW(Error);
+    virtual void writeObject(ContainerNode &node) const throw(Error);
 };
 
 /**
@@ -425,11 +404,6 @@ struct TransportInfo
     unsigned		    usageCount;
 
 public:
-    /**
-     * Default constructor.
-     */
-    TransportInfo();
-
     /** Construct from pjsua_transport_info */
     void fromPj(const pjsua_transport_info &info);
 };
@@ -569,8 +543,6 @@ struct TsxStateEventSrc
     TimerEntry      timer;          /**< The timer.                 */
     pj_status_t     status;         /**< Transport error status.    */
     GenericData     data;           /**< Generic data.              */
-
-    TsxStateEventSrc() : status() {}
 };
 
 /**
@@ -588,8 +560,6 @@ struct TsxStateEvent
                                          *     - PJSIP_EVENT_TIMER
                                          *     - PJSIP_EVENT_USER
                                          */
-
-    TsxStateEvent();
 };
 
 /**
@@ -744,7 +714,7 @@ public:
     /**
      * Initiaize from PJSIP header.
      */
-    void fromPj(const pjsip_hdr *) PJSUA2_THROW(Error);
+    void fromPj(const pjsip_hdr *) throw(Error);
 
     /**
      * Convert to PJSIP header.
@@ -784,7 +754,7 @@ public:
     /**
      * Initiaize from PJSIP's pjsip_multipart_part.
      */
-    void fromPj(const pjsip_multipart_part &prm) PJSUA2_THROW(Error);
+    void fromPj(const pjsip_multipart_part &prm) throw(Error);
 
     /**
      * Convert to PJSIP's pjsip_multipart_part.
@@ -859,7 +829,7 @@ public:
     /**
      * Initiaize from PJSUA's pjsua_msg_data.
      */
-    void fromPj(const pjsua_msg_data &prm) PJSUA2_THROW(Error);
+    void fromPj(const pjsua_msg_data &prm) throw(Error);
 
     /**
      * Convert to PJSUA's pjsua_msg_data.
@@ -932,20 +902,20 @@ public:
 //! @cond Doxygen_Suppress
 void readIntVector( ContainerNode &node,
                     const string &array_name,
-                    IntVector &v) PJSUA2_THROW(Error);
+                    IntVector &v) throw(Error);
 void writeIntVector(ContainerNode &node,
                     const string &array_name,
-                    const IntVector &v) PJSUA2_THROW(Error);
+                    const IntVector &v) throw(Error);
 void readQosParams( ContainerNode &node,
-                    pj_qos_params &qos) PJSUA2_THROW(Error);
+                    pj_qos_params &qos) throw(Error);
 void writeQosParams( ContainerNode &node,
-                     const pj_qos_params &qos) PJSUA2_THROW(Error);
+                     const pj_qos_params &qos) throw(Error);
 void readSipHeaders( const ContainerNode &node,
                      const string &array_name,
-                     SipHeaderVector &headers) PJSUA2_THROW(Error);
+                     SipHeaderVector &headers) throw(Error);
 void writeSipHeaders(ContainerNode &node,
                      const string &array_name,
-                     const SipHeaderVector &headers) PJSUA2_THROW(Error);
+                     const SipHeaderVector &headers) throw(Error);
 //! @endcond
 #endif // SWIG
 

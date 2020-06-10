@@ -58,26 +58,26 @@ public:
      *
      * @param filename		The file name.
      */
-    virtual void   loadFile(const string &filename) PJSUA2_THROW(Error);
+    virtual void   loadFile(const string &filename) throw(Error);
 
     /**
      * Load this document from string.
      *
      * @param input		The string.
      */
-    virtual void   loadString(const string &input) PJSUA2_THROW(Error);
+    virtual void   loadString(const string &input) throw(Error);
 
     /**
      * Write this document to a file.
      *
      * @param filename		The file name.
      */
-    virtual void   saveFile(const string &filename) PJSUA2_THROW(Error);
+    virtual void   saveFile(const string &filename) throw(Error);
 
     /**
      * Write this document to string.
      */
-    virtual string saveString() PJSUA2_THROW(Error);
+    virtual string saveString() throw(Error);
 
     /**
      * Get the root container node for this document

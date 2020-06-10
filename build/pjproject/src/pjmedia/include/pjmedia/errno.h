@@ -176,11 +176,6 @@ PJ_BEGIN_DECL
  * Invalid SDP bandwidth info (b=) line.
  */
 #define PJMEDIA_SDP_EINBANDW	    (PJMEDIA_ERRNO_START+37)    /* 220037 */
-/**
- * @hideinitializer
- * Invalid SDP "ssrc" attribute.
- */
-#define PJMEDIA_SDP_EINSSRC	    (PJMEDIA_ERRNO_START+38)    /* 220038 */
 
 
 /************************************************************
@@ -626,11 +621,6 @@ PJ_BEGIN_DECL
  * Secure transport required in SDP media descriptor.
  */
 #define PJMEDIA_SRTP_ESDPREQSECTP   (PJMEDIA_ERRNO_START+229)    /* 220229 */
-/**
- * @hideinitializer
- * SRTP parameters negotiation still in progress.
- */
-#define PJMEDIA_SRTP_EKEYNOTREADY   (PJMEDIA_ERRNO_START+230)	 /* 220230 */
 
 /**
  * @hideinitializer
@@ -649,18 +639,6 @@ PJ_BEGIN_DECL
  * Fingerprint from signalling not match to actual fingerprint.
  */
 #define PJMEDIA_SRTP_DTLS_EFPNOTMATCH (PJMEDIA_ERRNO_START+242)  /* 220242 */
-
-/**
- * @hideinitializer
- * Fingerprint not found.
- */
-#define PJMEDIA_SRTP_DTLS_ENOFPRINT (PJMEDIA_ERRNO_START+243)	/* 220243 */
-
-/**
- * @hideinitializer
- * No valid SRTP protection profile for DTLS.
- */
-#define PJMEDIA_SRTP_DTLS_ENOPROFILE (PJMEDIA_ERRNO_START+244)   /* 220244 */
 
 #endif /* PJMEDIA_HAS_SRTP */
 

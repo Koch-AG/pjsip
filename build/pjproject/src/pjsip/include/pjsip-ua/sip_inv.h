@@ -259,12 +259,9 @@ typedef struct pjsip_inv_callback
      *
      * Once it has sent the ACK request, the framework will keep 
      * this ACK request in the cache. Subsequent receipt of 2xx response
-     * will not cause this callback to be called (but see exception below),
-     * and instead automatic retransmission of this ACK request from
-     * the cache will be done by the framework.
-     * Exception: if app has created the ACK but has not sent it,
-     * while it receives a retransmission of 2xx response, this callback
-     * will be called again.
+     * will not cause this callback to be called, and instead automatic
+     * retransmission of this ACK request from the cache will be done
+     * by the framework.
      *
      * This callback is optional.
      */
@@ -445,8 +442,6 @@ struct pjsip_inv_session
     pj_bool_t		 following_fork;	    /**< Internal, following
 							 forked media?	    */
     pj_atomic_t		*ref_cnt;		    /**< Reference counter. */
-    pj_bool_t            updated_sdp_answer;        /**< SDP answer just been
-							 updated?	    */
 };
 
 

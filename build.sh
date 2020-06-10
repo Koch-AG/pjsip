@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # environment variables
-export OPENSSL_VERSION="1.1.1c" # specify the openssl version to use
+export OPENSSL_VERSION="1.0.2r" # specify the openssl version to use
 export PJSIP_VERSION="2.10"
 #export OPUS_VERSION="1.3.1"
 #export MACOS_MIN_SDK_VERSION="10.12"
