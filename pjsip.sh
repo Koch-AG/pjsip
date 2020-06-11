@@ -142,9 +142,12 @@ function configure () {
 	if [[ ! ${LDFLAGS} ]]; then
 		export LDFLAGS=
 	fi
+	print "CHECKING OPENSSL"
 	if [[ ${OPENSSL_PREFIX} ]]; then
+		print "OPENSSL_PREFIX PRESENT"
 		export CFLAGS="${CFLAGS} -I${OPENSSL_PREFIX}/include"
 		if [ "$TYPE" == "ios" ]; then
+			print "ADDING OPENSSL FLAG"
 			export LDFLAGS="${LDFLAGS} -L${OPENSSL_PREFIX}/lib/ios"
 		elif [ "$TYPE" == "macos" ]; then
 			export LDFLAGS="${LDFLAGS} -L${OPENSSL_PREFIX}/lib/macos"
