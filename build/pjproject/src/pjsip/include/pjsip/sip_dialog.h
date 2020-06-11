@@ -1,4 +1,4 @@
-/* $Id: sip_dialog.h 5456 2016-10-07 08:41:55Z ming $ */
+/* $Id$ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>

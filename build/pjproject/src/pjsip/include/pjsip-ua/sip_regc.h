@@ -1,4 +1,4 @@
-/* $Id: sip_regc.h 5356 2016-06-24 13:03:25Z nanang $ */
+/* $Id$ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>

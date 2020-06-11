@@ -1,4 +1,4 @@
-/* $Id: call.hpp 6026 2019-06-12 06:00:35Z nanang $ */
+/* $Id$ */
 /*
  * Copyright (C) 2012-2013 Teluu Inc. (http://www.teluu.com)
  *
@@ -227,6 +227,61 @@ public:
     void fromPj(const pjmedia_sdp_session &sdp);
 };
 
+/**
+ * This structure describes a media format changed event.
+ */
+struct MediaFmtChangedEvent
+{
+    unsigned newWidth;      /**< The new width.     */
+    unsigned newHeight;     /**< The new height.    */
+};
+
+/**
+ * Media event data.
+ */
+typedef union MediaEventData {
+    /**
+     * Media format changed event data.
+     */
+    MediaFmtChangedEvent    fmtChanged;
+    
+    /**
+     * Pointer to storage to user event data, if it's outside
+     * this struct
+     */
+    GenericData		ptr;
+
+} MediaEventData;
+
+/**
+ * This structure describes a media event. It corresponds to the
+ * pjmedia_event structure.
+ */
+struct MediaEvent
+{
+    /**
+     * The event type.
+     */
+    pjmedia_event_type          type;
+
+    /**
+     * Additional data/parameters about the event. The type of data
+     * will be specific to the event type being reported.
+     */
+    MediaEventData              data;
+    
+    /**
+     * Pointer to original pjmedia_event. Only valid when the struct
+     * is converted from PJSIP's pjmedia_event.
+     */
+    void                       *pjMediaEvent;
+
+public:
+    /**
+     * Convert from pjsip
+     */
+    void fromPj(const pjmedia_event &ev);
+};
 
 /**
  * This structure describes media transport informations. It corresponds to the
@@ -311,7 +366,7 @@ public:
     /**
      * Default constructor initializes with empty or default values.
      */
-    CallSetting(bool useDefaultValues = false);
+    CallSetting(pj_bool_t useDefaultValues = false);
 
     /**
      * Check if the settings are set with empty values.
@@ -333,11 +388,6 @@ public:
 
 /**
  * Call media information.
- *
- * Application can query conference bridge port of this media using
- * Call::getAudioMedia() if the media type is audio,
- * or Call::getEncodingVideoMedia()/Call::getDecodingVideoMedia()
- * if the media type is video.
  */
 struct CallMediaInfo
 {
@@ -362,9 +412,6 @@ struct CallMediaInfo
     pjsua_call_media_status status;
     
     /**
-     * Warning: this is deprecated, application can query conference bridge
-     * port of this media using Call::getAudioMedia().
-     *
      * The conference port number for the call. Only valid if the media type
      * is audio.
      */
@@ -382,7 +429,7 @@ struct CallMediaInfo
      * the media type is video.
      */
     VideoWindow	    	    videoWindow;
-
+    
     /**
      * The video capture device for outgoing transmission, if any,
      * or PJMEDIA_VID_INVALID_DEV. Only valid if the media type is video.
@@ -737,25 +784,19 @@ struct OnCallTransferRequestParam
     /**
      * The destination where the call will be transferred to.
      */
-    string               dstUri;
+    string              dstUri;
     
     /**
      * Status code to be returned for the call transfer request. On input,
-     * it contains status code 202.
+     * it contains status code 200.
      */
-    pjsip_status_code    statusCode;
+    pjsip_status_code   statusCode;
     
     /**
      * The current call setting, application can update this setting
      * for the call being transferred.
      */
-    CallSetting          opt;
-
-    /**
-     * New Call derived object instantiated by application when the call
-     * transfer is about to be accepted.
-     */
-    Call		*newCall;
+    CallSetting         opt;
 };
 
 /**
@@ -825,12 +866,7 @@ struct OnCallReplacedParam
     /**
      * The new call id.
      */
-    pjsua_call_id        newCallId;
-
-    /**
-     * New Call derived object instantiated by application.
-     */
-    Call		*newCall;
+    pjsua_call_id       newCallId;
 };
 
 /**
@@ -1017,7 +1053,7 @@ struct OnCreateMediaTransportSrtpParam
      * Application can modify this to specify the cryptos and keys
      * which are going to be used.
      */
-    SrtpCryptoVector		cryptos;
+    vector<SrtpCrypto>		cryptos;
 };
 
 /**
@@ -1209,7 +1245,7 @@ public:
      *
      * @return              Call info.
      */
-    CallInfo getInfo() const PJSUA2_THROW(Error);
+    CallInfo getInfo() const throw(Error);
     
     /**
      * Check if this call has active INVITE session and the INVITE
@@ -1243,9 +1279,6 @@ public:
     bool hasMedia() const;
     
     /**
-     * Warning: deprecated, use getAudioMedia() instead. This function is not
-     * safe in multithreaded environment.
-     *
      * Get media for the specified media index.
      *
      * @param med_idx       Media index.
@@ -1253,43 +1286,6 @@ public:
      * @return              The media or NULL if invalid or inactive.
      */
     Media *getMedia(unsigned med_idx) const;
-
-    /**
-     * Get audio media for the specified media index. If the specified media
-     * index is not audio or invalid or inactive, exception will be thrown.
-     *
-     * @param med_idx       Media index, or -1 to specify any first audio
-     *                      media registered in the conference bridge.
-     *
-     * @return              The audio media.
-     */
-    AudioMedia getAudioMedia(int med_idx) const PJSUA2_THROW(Error);
-
-    /**
-     * Get video media in encoding direction for the specified media index.
-     * If the specified media index is not video or invalid or the direction
-     * is receive only, exception will be thrown.
-     *
-     * @param med_idx       Media index, or -1 to specify any first video
-     *			    media with encoding direction registered in the
-     *			    conference bridge.
-     *
-     * @return              The video media.
-     */
-    VideoMedia getEncodingVideoMedia(int med_idx) const PJSUA2_THROW(Error);
-
-    /**
-     * Get video media in decoding direction for the specified media index.
-     * If the specified media index is not video or invalid or the direction
-     * is send only, exception will be thrown.
-     *
-     * @param med_idx       Media index, or -1 to specify any first video
-     *			    media with decoding direction registered in the
-     *			    conference bridge.
-     *
-     * @return              The video media.
-     */
-    VideoMedia getDecodingVideoMedia(int med_idx) const PJSUA2_THROW(Error);
 
     /**
      * Check if remote peer support the specified capability.
@@ -1348,7 +1344,7 @@ public:
      *
      * @see Endpoint::natGetType(), natTypeInSdp
      */
-    pj_stun_nat_type getRemNatType() PJSUA2_THROW(Error);
+    pj_stun_nat_type getRemNatType() throw(Error);
 
     /**
      * Make outgoing call to the specified URI.
@@ -1359,8 +1355,7 @@ public:
      * @param prm.txOption  Optional headers etc to be added to outgoing INVITE
      *                      request.
      */
-    void makeCall(const string &dst_uri, const CallOpParam &prm)
-		  PJSUA2_THROW(Error);
+    void makeCall(const string &dst_uri, const CallOpParam &prm) throw(Error);
 
     /**
      * Send response to incoming INVITE request with call setting param.
@@ -1384,7 +1379,7 @@ public:
      *                      be persistent in all next answers/responses for this
      *                      INVITE request.
      */
-    void answer(const CallOpParam &prm) PJSUA2_THROW(Error);
+    void answer(const CallOpParam &prm) throw(Error);
     
     /**
      * Hangup call by using method that is appropriate according to the
@@ -1404,7 +1399,7 @@ public:
      * @param prm.txOption  Optional list of headers etc to be added to outgoing
      *                      request/response message.
      */
-    void hangup(const CallOpParam &prm) PJSUA2_THROW(Error);
+    void hangup(const CallOpParam &prm) throw(Error);
     
     /**
      * Put the specified call on hold. This will send re-INVITE with the
@@ -1418,7 +1413,7 @@ public:
      * @param prm.txOption  Optional message components to be sent with
      *                      the request.
      */
-    void setHold(const CallOpParam &prm) PJSUA2_THROW(Error);
+    void setHold(const CallOpParam &prm) throw(Error);
     
     /**
      * Send re-INVITE.
@@ -1433,7 +1428,7 @@ public:
      * @param prm.txOption  Optional message components to be sent with
      *                      the request.
      */
-    void reinvite(const CallOpParam &prm) PJSUA2_THROW(Error);
+    void reinvite(const CallOpParam &prm) throw(Error);
     
     /**
      * Send UPDATE request.
@@ -1443,7 +1438,7 @@ public:
      * @param prm.txOption  Optional message components to be sent with
      *                      the request.
      */
-    void update(const CallOpParam &prm) PJSUA2_THROW(Error);
+    void update(const CallOpParam &prm) throw(Error);
     
     /**
      * Initiate call transfer to the specified address. This function will send
@@ -1460,7 +1455,7 @@ public:
      * @param prm.txOption  Optional message components to be sent with
      *                      the request.
      */
-    void xfer(const string &dest, const CallOpParam &prm) PJSUA2_THROW(Error);
+    void xfer(const string &dest, const CallOpParam &prm) throw(Error);
 
     /**
      * Initiate attended call transfer. This function will send REFER request
@@ -1478,7 +1473,7 @@ public:
      *                      the request.
      */
     void xferReplaces(const Call& dest_call,
-                      const CallOpParam &prm) PJSUA2_THROW(Error);
+                      const CallOpParam &prm) throw(Error);
     
     /**
      * Accept or reject redirection response. Application MUST call this
@@ -1502,21 +1497,21 @@ public:
      *                      callback, except that the PJSIP_REDIRECT_PENDING is
      *                      not accepted here.
      */
-    void processRedirect(pjsip_redirect_op cmd) PJSUA2_THROW(Error);
+    void processRedirect(pjsip_redirect_op cmd) throw(Error);
 
     /**
      * Send DTMF digits to remote using RFC 2833 payload formats.
      *
      * @param digits        DTMF string digits to be sent.
      */
-    void dialDtmf(const string &digits) PJSUA2_THROW(Error);
+    void dialDtmf(const string &digits) throw(Error);
 
     /**
      * Send DTMF digits to remote.
      *
      * @param param	The send DTMF parameter.
      */
-    void sendDtmf(const CallSendDtmfParam &param) PJSUA2_THROW(Error);
+    void sendDtmf(const CallSendDtmfParam &param) throw (Error);
     
     /**
      * Send instant messaging inside INVITE session.
@@ -1530,8 +1525,7 @@ public:
      * @param prm.userData  Optional user data, which will be given back when
      *                      the IM callback is called.
      */
-    void sendInstantMessage(const SendInstantMessageParam& prm)
-			    PJSUA2_THROW(Error);
+    void sendInstantMessage(const SendInstantMessageParam& prm) throw(Error);
     
     /**
      * Send IM typing indication inside INVITE session.
@@ -1542,7 +1536,7 @@ public:
      *                      outgoing request.
      */
     void sendTypingIndication(const SendTypingIndicationParam &prm)
-         PJSUA2_THROW(Error);
+         throw(Error);
     
     /**
      * Send arbitrary request with the call. This is useful for example to send
@@ -1554,7 +1548,7 @@ public:
      * @param prm.txOption  Optional message body and/or list of headers to be
      *                      included in outgoing request.
      */
-    void sendRequest(const CallSendRequestParam &prm) PJSUA2_THROW(Error);
+    void sendRequest(const CallSendRequestParam &prm) throw(Error);
     
     /**
      * Dump call and media statistics to string.
@@ -1564,7 +1558,7 @@ public:
      *
      * @return              Call dump and media statistics string.
      */
-    string dump(bool with_media, const string indent) PJSUA2_THROW(Error);
+    string dump(bool with_media, const string indent) throw(Error);
     
     /**
      * Get the media stream index of the default video stream in the call.
@@ -1602,7 +1596,7 @@ public:
      *                      (see CallVidSetStreamParam).
      */
     void vidSetStream(pjsua_call_vid_strm_op op,
-                      const CallVidSetStreamParam &param) PJSUA2_THROW(Error);
+                      const CallVidSetStreamParam &param) throw(Error);
 
     /**
      * Get media stream info for the specified media index.
@@ -1611,7 +1605,7 @@ public:
      *
      * @return              The stream info.
      */
-    StreamInfo getStreamInfo(unsigned med_idx) const PJSUA2_THROW(Error);
+    StreamInfo getStreamInfo(unsigned med_idx) const throw(Error);
     
     /**
      * Get media stream statistic for the specified media index.
@@ -1620,7 +1614,7 @@ public:
      *
      * @return              The stream statistic.
      */
-    StreamStat getStreamStat(unsigned med_idx) const PJSUA2_THROW(Error);
+    StreamStat getStreamStat(unsigned med_idx) const throw(Error);
     
     /**
      * Get media transport info for the specified media index.
@@ -1629,8 +1623,7 @@ public:
      *
      * @return              The transport info.
      */
-    MediaTransportInfo getMedTransportInfo(unsigned med_idx) const
-					   PJSUA2_THROW(Error);
+    MediaTransportInfo getMedTransportInfo(unsigned med_idx) const throw(Error);
 
     /**
      * Internal function (callled by Endpoint( to process update to call
@@ -1723,21 +1716,10 @@ public:
     
     /**
      * Notify application on call being transferred (i.e. REFER is received).
-     * Application can decide to accept/reject transfer request by setting
-     * the code (default is 202). When this callback is not implemented,
-     * the default behavior is to accept the transfer.
-     *
-     * If application decides to accept the transfer request, it must also
-     * instantiate the new Call object for the transfer operation and return
-     * this new Call object to prm.newCall.
-     * 
-     * If application does not specify new Call object, library will reuse the
-     * existing Call object for initiating the new call (to the transfer
-     * destination). In this case, any events from both calls (transferred and
-     * transferring) will be delivered to the same Call object, where the call
-     * ID will be switched back and forth between callbacks. Application must
-     * be careful to not destroy the Call object when receiving disconnection
-     * event of the transferred call after the transfer process is completed.
+     * Application can decide to accept/reject transfer request
+     * by setting the code (default is 202). When this callback
+     * is not implemented, the default behavior is to accept the
+     * transfer.
      *
      * @param prm	Callback parameter.
      */
@@ -1770,11 +1752,7 @@ public:
      * request with Replaces header.
      *
      * After this callback is called, normally PJSUA-API will disconnect
-     * this call and establish a new call. To be able to control the call,
-     * e.g: hold, transfer, change media parameters, application must
-     * instantiate a new Call object for the new call using call ID
-     * specified in prm.newCallId, and return the Call object via
-     * prm.newCall.
+     * this call and establish a new call \a newCallId.
      *
      * @param prm	Callback parameter.
      */
@@ -1974,7 +1952,6 @@ private:
     Token                userData;
     std::vector<Media *> medias;
     pj_pool_t		*sdp_pool;
-    Call		*child;	    /* New outgoing call in call transfer.  */
 };
 
 /**

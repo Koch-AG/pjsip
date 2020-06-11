@@ -1,4 +1,4 @@
-/* $Id: evsub.h 5558 2017-02-20 01:29:21Z ming $ */
+/* $Id$ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>

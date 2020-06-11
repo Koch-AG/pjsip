@@ -1,4 +1,4 @@
-/* $Id: config.hpp 6026 2019-06-12 06:00:35Z nanang $ */
+/* $Id$ */
 /*
  * Copyright (C) 2013 Teluu Inc. (http://www.teluu.com)
  *
@@ -45,16 +45,6 @@
  */
 #ifndef PJSUA2_MAX_SDP_BUF_LEN
 #   define PJSUA2_MAX_SDP_BUF_LEN		1024
-#endif
-
-
-/*
- * C++11 deprecated dynamic exception specification, but SWIG needs it.
- */
-#ifndef SWIG
-#   define PJSUA2_THROW(x)
-#else
-#   define PJSUA2_THROW(x) throw(x)
 #endif
 
 /**

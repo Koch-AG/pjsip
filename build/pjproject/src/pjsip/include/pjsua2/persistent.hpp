@@ -1,4 +1,4 @@
-/* $Id: persistent.hpp 6026 2019-06-12 06:00:35Z nanang $ */
+/* $Id$ */
 /*
  * Copyright (C) 2013 Teluu Inc. (http://www.teluu.com)
  *
@@ -68,14 +68,14 @@ public:
      *
      * @param node		Container to read values from.
      */
-    virtual void readObject(const ContainerNode &node) PJSUA2_THROW(Error) = 0;
+    virtual void readObject(const ContainerNode &node) throw(Error) = 0;
 
     /**
      * Write this object to a container node.
      *
      * @param node		Container to write values to.
      */
-    virtual void writeObject(ContainerNode &node) const PJSUA2_THROW(Error) = 0;
+    virtual void writeObject(ContainerNode &node) const throw(Error) = 0;
 };
 
 
@@ -110,31 +110,28 @@ public:
      *
      * @param filename	The file name.
      */
-    virtual void   	loadFile(const string &filename)
-				 PJSUA2_THROW(Error) = 0;
+    virtual void   	loadFile(const string &filename) throw(Error) = 0;
 
     /**
      * Load this document from string.
      *
      * @param input	The string.
      */
-    virtual void   	loadString(const string &input)
-				   PJSUA2_THROW(Error) = 0;
+    virtual void   	loadString(const string &input) throw(Error) = 0;
 
     /**
      * Write this document to a file.
      *
      * @param filename	The file name.
      */
-    virtual void   	saveFile(const string &filename)
-				 PJSUA2_THROW(Error) = 0;
+    virtual void   	saveFile(const string &filename) throw(Error) = 0;
 
     /**
      * Write this document to string.
      *
      * @return		The string document.
      */
-    virtual string 	saveString() PJSUA2_THROW(Error) = 0;
+    virtual string 	saveString() throw(Error) = 0;
 
     /**
      * Get the root container node for this document
@@ -163,7 +160,7 @@ public:
      *
      * @return		The name of the next element .
      */
-    string		unreadName() const PJSUA2_THROW(Error);
+    string		unreadName() const throw(Error);
 
     /**
      * Read an integer value from the document and return the value.
@@ -176,8 +173,7 @@ public:
      *
      * @return		The value.
      */
-    int			readInt(const string &name="") const
-				PJSUA2_THROW(Error);
+    int			readInt(const string &name="") const throw(Error);
 
     /**
      * Read a float value from the document and return the value.
@@ -190,8 +186,7 @@ public:
      *
      * @return		The value.
      */
-    float		readNumber(const string &name="") const
-				   PJSUA2_THROW(Error);
+    float		readNumber(const string &name="") const throw(Error);
 
     /**
      * Read a boolean value from the container and return the value.
@@ -204,8 +199,7 @@ public:
      *
      * @return		The value.
      */
-    bool		readBool(const string &name="") const
-				 PJSUA2_THROW(Error);
+    bool		readBool(const string &name="") const throw(Error);
 
     /**
      * Read a string value from the container and return the value.
@@ -218,8 +212,7 @@ public:
      *
      * @return		The value.
      */
-    string		readString(const string &name="") const
-				   PJSUA2_THROW(Error);
+    string		readString(const string &name="") const throw(Error);
 
     /**
      * Read a string array from the container. This will throw Error
@@ -233,7 +226,7 @@ public:
      * @return		The value.
      */
     StringVector	readStringVector(const string &name="") const
-					 PJSUA2_THROW(Error);
+					 throw(Error);
 
     /**
      * Read the specified object from the container. This is equal to
@@ -241,8 +234,7 @@ public:
      *
      * @param obj	The object to read.
      */
-    void		readObject(PersistentObject &obj) const
-				   PJSUA2_THROW(Error);
+    void		readObject(PersistentObject &obj) const throw(Error);
 
     /**
      * Read a container from the container. This will throw Error if the
@@ -256,7 +248,7 @@ public:
      * @return		Container object.
      */
     ContainerNode	readContainer(const string &name="") const
-				      PJSUA2_THROW(Error);
+				      throw(Error);
 
     /**
      * Read array container from the container. This will throw Error if the
@@ -270,7 +262,7 @@ public:
      * @return		Container object.
      */
     ContainerNode	readArray(const string &name="") const
-				  PJSUA2_THROW(Error);
+				  throw(Error);
 
     /**
      * Write a number value to the container.
@@ -279,7 +271,7 @@ public:
      * @param num	The value to be written.
      */
     void		writeNumber(const string &name,
-        		            float num) PJSUA2_THROW(Error);
+        		            float num) throw(Error);
 
     /**
      * Write a number value to the container.
@@ -288,7 +280,7 @@ public:
      * @param num	The value to be written.
      */
     void		writeInt(const string &name,
-        		         int num) PJSUA2_THROW(Error);
+        		         int num) throw(Error);
 
     /**
      * Write a boolean value to the container.
@@ -297,7 +289,7 @@ public:
      * @param value	The value to be written.
      */
     void		writeBool(const string &name,
-        		          bool value) PJSUA2_THROW(Error);
+        		          bool value) throw(Error);
 
     /**
      * Write a string value to the container.
@@ -306,7 +298,7 @@ public:
      * @param value	The value to be written.
      */
     void		writeString(const string &name,
-        		            const string &value) PJSUA2_THROW(Error);
+        		            const string &value) throw(Error);
 
     /**
      * Write string vector to the container.
@@ -316,7 +308,7 @@ public:
      */
     void		writeStringVector(const string &name,
         		                  const StringVector &arr)
-					  PJSUA2_THROW(Error);
+					  throw(Error);
 
     /**
      * Write an object to the container. This is equal to calling
@@ -324,8 +316,7 @@ public:
      *
      * @param obj	The object to be written
      */
-    void		writeObject(const PersistentObject &obj)
-				    PJSUA2_THROW(Error);
+    void		writeObject(const PersistentObject &obj) throw(Error);
 
     /**
      * Create and write an empty Object node that can be used as parent
@@ -336,7 +327,7 @@ public:
      * @return		A sub-container.
      */
     ContainerNode 	writeNewContainer(const string &name)
-					  PJSUA2_THROW(Error);
+					  throw(Error);
 
     /**
      * Create and write an empty array node that can be used as parent
@@ -347,7 +338,7 @@ public:
      * @return		A sub-container.
      */
     ContainerNode 	writeNewArray(const string &name)
-				      PJSUA2_THROW(Error);
+				      throw(Error);
 };
 
 
@@ -431,7 +422,7 @@ public:
     /**
      * Get the name of the next unread element.
      */
-    string		unreadName() const PJSUA2_THROW(Error);
+    string		unreadName() const throw(Error);
 
     /**
      * Read an integer value from the document and return the value.
@@ -444,8 +435,7 @@ public:
      *
      * @return		The value.
      */
-    int			readInt(const string &name="") const
-				PJSUA2_THROW(Error);
+    int			readInt(const string &name="") const throw(Error);
 
     /**
      * Read a number value from the document and return the value.
@@ -458,8 +448,7 @@ public:
      *
      * @return		The value.
      */
-    float		readNumber(const string &name="") const
-				   PJSUA2_THROW(Error);
+    float		readNumber(const string &name="") const throw(Error);
 
     /**
      * Read a boolean value from the container and return the value.
@@ -472,8 +461,7 @@ public:
      *
      * @return		The value.
      */
-    bool		readBool(const string &name="") const
-				 PJSUA2_THROW(Error);
+    bool		readBool(const string &name="") const throw(Error);
 
     /**
      * Read a string value from the container and return the value.
@@ -486,8 +474,7 @@ public:
      *
      * @return		The value.
      */
-    string		readString(const string &name="") const
-				   PJSUA2_THROW(Error);
+    string		readString(const string &name="") const throw(Error);
 
     /**
      * Read a string array from the container. This will throw Error
@@ -501,7 +488,7 @@ public:
      * @return		The value.
      */
     StringVector	readStringVector(const string &name="") const
-					 PJSUA2_THROW(Error);
+					 throw(Error);
 
     /**
      * Read the specified object from the container. This is equal to
@@ -509,8 +496,7 @@ public:
      *
      * @param obj	The object to read.
      */
-    void		readObject(PersistentObject &obj) const
-				   PJSUA2_THROW(Error);
+    void		readObject(PersistentObject &obj) const throw(Error);
 
     /**
      * Read a container from the container. This will throw Error if the
@@ -524,7 +510,7 @@ public:
      * @return		Container object.
      */
     ContainerNode	readContainer(const string &name="") const
-				      PJSUA2_THROW(Error);
+				      throw(Error);
 
     /**
      * Read array container from the container. This will throw Error if the
@@ -538,7 +524,7 @@ public:
      * @return		Container object.
      */
     ContainerNode	readArray(const string &name="") const
-				  PJSUA2_THROW(Error);
+				  throw(Error);
 
     /**
      * Write a number value to the container.
@@ -547,7 +533,7 @@ public:
      * @param num	The value to be written.
      */
     void		writeNumber(const string &name,
-        		            float num) PJSUA2_THROW(Error);
+        		            float num) throw(Error);
 
     /**
      * Write a number value to the container.
@@ -556,7 +542,7 @@ public:
      * @param num	The value to be written.
      */
     void		writeInt(const string &name,
-        		         int num) PJSUA2_THROW(Error);
+        		         int num) throw(Error);
 
     /**
      * Write a boolean value to the container.
@@ -565,7 +551,7 @@ public:
      * @param value	The value to be written.
      */
     void		writeBool(const string &name,
-        		          bool value) PJSUA2_THROW(Error);
+        		          bool value) throw(Error);
 
     /**
      * Write a string value to the container.
@@ -574,7 +560,7 @@ public:
      * @param value	The value to be written.
      */
     void		writeString(const string &name,
-        		            const string &value) PJSUA2_THROW(Error);
+        		            const string &value) throw(Error);
 
     /**
      * Write string vector to the container.
@@ -584,7 +570,7 @@ public:
      */
     void		writeStringVector(const string &name,
         		                  const StringVector &arr)
-					  PJSUA2_THROW(Error);
+					  throw(Error);
 
     /**
      * Write an object to the container. This is equal to calling
@@ -592,8 +578,7 @@ public:
      *
      * @param obj	The object to be written
      */
-    void		writeObject(const PersistentObject &obj)
-				    PJSUA2_THROW(Error);
+    void		writeObject(const PersistentObject &obj) throw(Error);
 
     /**
      * Create and write an empty Object node that can be used as parent
@@ -604,7 +589,7 @@ public:
      * @return		A sub-container.
      */
     ContainerNode 	writeNewContainer(const string &name)
-					  PJSUA2_THROW(Error);
+					  throw(Error);
 
     /**
      * Create and write an empty array node that can be used as parent
@@ -615,7 +600,7 @@ public:
      * @return		A sub-container.
      */
     ContainerNode 	writeNewArray(const string &name)
-				      PJSUA2_THROW(Error);
+				      throw(Error);
 
 public:
     /* internal data */
@@ -633,47 +618,47 @@ struct container_node_op
 {
     bool		(*hasUnread)(const ContainerNode*);
     string		(*unreadName)(const ContainerNode*)
-				      PJSUA2_THROW(Error);
+				      throw(Error);
     float		(*readNumber)(const ContainerNode*,
 				      const string&)
-				      PJSUA2_THROW(Error);
+				      throw(Error);
     bool		(*readBool)(const ContainerNode*,
 				    const string&)
-				    PJSUA2_THROW(Error);
+				    throw(Error);
     string		(*readString)(const ContainerNode*,
 				      const string&)
-				      PJSUA2_THROW(Error);
+				      throw(Error);
     StringVector	(*readStringVector)(const ContainerNode*,
 					    const string&)
-					    PJSUA2_THROW(Error);
+					    throw(Error);
     ContainerNode	(*readContainer)(const ContainerNode*,
 					 const string &)
-					 PJSUA2_THROW(Error);
+					 throw(Error);
     ContainerNode	(*readArray)(const ContainerNode*,
 				     const string &)
-				     PJSUA2_THROW(Error);
+				     throw(Error);
     void		(*writeNumber)(ContainerNode*,
 				       const string &name,
         		               float num)
-        		               PJSUA2_THROW(Error);
+        		               throw(Error);
     void		(*writeBool)(ContainerNode*,
 				     const string &name,
         			     bool value)
-        			     PJSUA2_THROW(Error);
+        			     throw(Error);
     void		(*writeString)(ContainerNode*,
 				       const string &name,
         			       const string &value)
-        			       PJSUA2_THROW(Error);
+        			       throw(Error);
     void		(*writeStringVector)(ContainerNode*,
 					     const string &name,
         				     const StringVector &value)
-					     PJSUA2_THROW(Error);
+					     throw(Error);
     ContainerNode 	(*writeNewContainer)(ContainerNode*,
 					     const string &name)
-					     PJSUA2_THROW(Error);
+					     throw(Error);
     ContainerNode 	(*writeNewArray)(ContainerNode*,
 				         const string &name)
-					 PJSUA2_THROW(Error);
+					 throw(Error);
 };
 
 /*

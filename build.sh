@@ -57,6 +57,6 @@ function pjsip() {
     "${__DIR__}/pjsip.sh" "${PJSIP_DIR}" --with-openssl "${OPENSSL_DIR}" --with-opus "${OPUS_DIR}/dependencies"
 }
 
-openssl
-opus
+#openssl
+#opus
 pjsip

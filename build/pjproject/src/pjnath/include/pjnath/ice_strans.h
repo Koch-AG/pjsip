@@ -1,4 +1,4 @@
-/* $Id: ice_strans.h 5562 2017-03-03 02:11:02Z ming $ */
+/* $Id$ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>

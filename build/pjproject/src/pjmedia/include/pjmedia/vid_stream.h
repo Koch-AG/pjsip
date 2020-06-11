@@ -1,4 +1,4 @@
-/* $Id: vid_stream.h 5788 2018-05-09 06:58:48Z ming $ */
+/* $Id$ */
 /* 
  * Copyright (C) 2011 Teluu Inc. (http://www.teluu.com)
  *

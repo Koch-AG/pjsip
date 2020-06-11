@@ -1,4 +1,4 @@
-/* $Id: sip_msg.h 5807 2018-06-20 07:56:45Z nanang $ */
+/* $Id$ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
